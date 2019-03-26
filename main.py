@@ -8,11 +8,15 @@ cur = conn.cursor()
 cur.execute("select tablename from pg_catalog.pg_tables where schemaname='cs421g64'")
 TABLES = list(map(lambda x: x[0], cur.fetchall()))
 
+RED_START = "\33[31m"
+GREEN_START = "\33[32m"
+YELLOW_START = "\33[33m"
+BLUE_START = "\33[34m"
+VIOLET_START = "\33[35m"
+LBLUE_START = "\33[36m"
+BLINK_START = "\33[5m"
+COLOR_END = "\33[0m"
 
-def select_all(table_name):
-	query = "select * from " + table_name
-	cur.execute(query)
-	print(cur.fetchall())
 
 # OPTION 1
 def find_trip(stopName, startTimeFrom, startTimeTo, startLocation):
@@ -28,17 +32,39 @@ def cancel_trip():
 
 
 # OPTION 3
+# # OPTION 3-1
+# # !!! PROBLEM !!!
+# def set_driver_status_with_no_cars():
+# 	action = ("update drivers "
+# 			"set status = 'No Car' where username not in "
+# 			"(select owner from vehicles); ")
+# 	query = ("select username, driverlicense, status from drivers;" )
+# 	cur.execute(action)
+# 	conn.commit()
+# 	cur.execute(query)
+# 	return cur.fetchall()
+
+
 # OPTION 3-1
-def set_driver_status_with_no_cars():
-	action = ("update drivers "
-			"set status = 'No Car' where username not in "
-			"(select owner from vehicles); "
-			"select username, driverlicense, status from drivers" )
+def delete_all_expired_cards():
+	action = ("delete from holdcards where cardnumber = "
+			"(select cardnumber from creditcards where expirydate < current_date); ")
+	query =	("select cardnumber, username from holdcards;")
 	cur.execute(action)
+	conn.commit()
+	cur.execute(query)
 	return cur.fetchall()
 
+# OPTION 3-2
+def standardize_trip_names():
+	action = ("update trips set title = 'Trip from ' || CAST(startLocation AS TEXT) || ' at ' || CAST(startTime AS TEXT) || ' with ' || CAST (numberOfSeatsAvailable AS TEXT) || ' seats';")
+	query = ("select tripid, title from trips;")
+	cur.execute(action)
+	conn.commit()
+	cur.execute(query)
+	return cur.fetchall()
 
-# OPTION 4 hall of 带明星
+# OPTION 4
 # OPTION 4-1
 def rank_destination():
 	query = ("select cityname, count(tripid) as numbers from hasstops natural join cities group by cityname order by numbers DESC limit 10;")
@@ -68,6 +94,19 @@ def rank_users_with_most_trips(startTimeFrom, startTimeTo):
 			"join users u on b.uid = u.username "
 			"group by uid, firstname, lastname " 
 			"order by count(b.tripid) desc;")
+	query_s = query.substitute(startTimeFrom=startTimeFrom, startTimeTo=startTimeTo)
+	cur.execute(query_s)
+	return cur.fetchall()
+
+
+# OPTION 4-5
+def rank_drivers_with_most_trips(startTimeFrom, startTimeTo):
+	query = Template("select uid, firstname, lastname, count(l.tripid) as numoftrips from leads l "
+			"join trips t on l.tripid = t.tripid and "
+			"t.starttime between '$startTimeFrom' and '$startTimeTo' "
+			"join users u on l.uid = u.username "
+			"group by uid, firstname, lastname " 
+			"order by count(l.tripid) desc;")
 	query_s = query.substitute(startTimeFrom=startTimeFrom, startTimeTo=startTimeTo)
 	cur.execute(query_s)
 	return cur.fetchall()
@@ -117,29 +156,32 @@ def validate_datetime(date_text):
 
 ########################################
 
-print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-print("***************************** WELCOME TO THE CARPOOL DATABASE SYSTEM *****************************")
-print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+print(YELLOW_START + "")
+print("**************************** WELCOME TO THE CARPOOL DATABASE SYSTEM ***************************")
+print("" + COLOR_END)
 
 while True:
-	print("==============================================================================================")
-	print("Please Enter One of the Following Options:\n")
+	print("===============================================================================================")
+	print(GREEN_START + "Please Enter One of the Following Options:\n")
 	print("\t1. Find a Trip")
 	print("\t2. Cancel a Trip")
-	print("\t3. Vehicle management")
-	print("\t4. Hall of Fame")
+	print("\t3. Status Management")
+	print("\t4. Hall of Fame -- List of useful rankings")
 	print("\t5. User Information")
-	print("\t6. View Comments about a Trip")
-	print("\t0. Exit the system\n")
-	opt = input("Please Enter Your Choice From 0 To 6: ")
+	print("\t6. View Comments about a Trip" + COLOR_END)
+	print(RED_START + "\t0. Exit the system"  + COLOR_END)
+	opt = input(GREEN_START + "\nPlease Enter Your Choice From 0 To 6: " + COLOR_END)
 	if not opt.isdigit() or int(opt) > 6 or int(opt) < 0:
 		print('throw new InvalidInputException("User must enter a number between 0 and 6.")')
 		continue
 	
 	if int(opt) == 0: # EXIT THE SYSTEM
+		print(YELLOW_START + "")
+		print("*************************************** SEE YOU AGAIN! ****************************************")
+		print("" + COLOR_END)
 		break
 	
-	if int(opt) == 1:
+	if int(opt) == 1:	
 		while True:
 			print("==============================================================================================")
 			timeStart = input("Please enter the the earliest start time of the trip: ")
@@ -157,30 +199,68 @@ while True:
 				t.add_row(entry)
 			print(t)
 
-			isExit = input("Continue Next Search? [Y/N]: ")
+			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
 			if isExit.upper() != 'Y' and isExit.upper() != 'N':
 				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit == 'n':
+			elif isExit.upper() == 'N':
 				break
+
+	if int(opt) == 2:
+		pass
+
+
+
+
+
+
 
 	if int(opt) == 3:
 		while True:
 			print("===============================================================================================")
-			print("Please select the action you would like to implement:\n")
-			print("\t1. Set the status of Drivers without Vehicles to 'No Car'")
-			choice = input("\nEnter Your Choice From 1 to 5: ")
+			print(GREEN_START + "Please select the action you would like to implement:\n")
+			# print("\t1. Set the status of Drivers without Vehicles to 'No Car'")
+			print("\t1. Delete all expired Cards")
+			print("\t2. Standardize all Trip names")
+			print(RED_START + "\t0. Exit")
+			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 3: " + COLOR_END)
+
+			if int(opt) == 0:
+				break
+
+			# if int(choice) == 1:
+			# 	print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+			# 	print("~~~~~~~~~~~~~~~~~~~~ Set the status of Drivers without Vehicles to 'No Car' ~~~~~~~~~~~~~~~~~~~")
+			# 	print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+			# 	t = PrettyTable(["User ID", "Driver License", "Status"])
+			# 	action_result = set_driver_status_with_no_cars()
+			# 	for entry in action_result:
+			# 		t.add_row(entry)
+			# 	print(t)
 
 			if int(choice) == 1:
 				print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
-				print("~~~~~~~~~~~~~~~~~~~ Set the status of Drivers without Vehicles to 'No Car' ~~~~~~~~~~~~~~~~~~~~~~~")
+				print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Delete all expired Cards ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 				print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
-				t = PrettyTable(["User ID", "Driver License", "Status"])
-				action_result = set_driver_status_with_no_cars()
+				t = PrettyTable(["Card Number", "User ID"])
+				action_result = delete_all_expired_cards()
 				for entry in action_result:
 					t.add_row(entry)
+				print("After deletion:\n")
 				print(t)
 
-			isExit = input("Continue Next Search? [Y/N]: ")
+			if int(choice) == 2:
+				print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+				print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Standardize Trip naming ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+				print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+				t = PrettyTable(["Trip ID", "Trip Description"])
+				action_result = standardize_trip_names()
+				for entry in action_result:
+					t.add_row(entry)
+				print("After standardization:\n")
+				print(t)
+				conn.commit()
+
+			isExit = input(RED_START + "Continue Next Action? [Y/N]: " + COLOR_END)
 			if isExit.upper() != 'Y' and isExit.upper() != 'N':
 				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
 			elif isExit == 'n':
@@ -191,13 +271,17 @@ while True:
 	if int(opt) == 4:
 		while True:
 			print("===============================================================================================")
-			print("Please select the rank you would like to see:\n")
+			print(GREEN_START + "Please select the rank you would like to see:\n")
 			print("\t1. Top 10 Trips with the highest Comments rating")
 			print("\t2. Top 10 Trip destinations")
-			print("\t3. Top 10 Vehicle model for your ride")
+			print("\t3. Top 10 Vehicle models for your ride")
 			print("\t4. Top 10 Users with the most Trips in a given time period")
-			print("\t5. Top 10 Users")
-			choice = input("\nEnter Your Choice From 1 to 5: ")
+			print("\t5. Top 10 Drivers with the most Trip in a given time period")
+			print(RED_START + "\t0. Exit")
+			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 5: " + COLOR_END)
+
+			if int(opt) == 0: # EXIT THE SYSTEM
+				break
 
 			if int(choice) == 1:
 				print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
@@ -233,11 +317,6 @@ while True:
 				print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 				print("~~~~~~~~~~~~~~~~~~~ Top 10 Users with the most Trips in a given time period ~~~~~~~~~~~~~~~~~~~")
 				print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
-				# firstName = input("Please enter the first name of the user: ")
-				# lastName = input("Please enter the last name of the user: ")
-				# if not validate_name(firstName) or not validate_name(lastName):
-				# 	print("You must enter a valid non-empty name.")
-				# 	continue	
 				startTimeFrom = input("Please enter the the earliest start time of the trip: ")
 				startTimeTo = input("Please enter the the lastest start time of the trip: ")
 				try:
@@ -253,10 +332,30 @@ while True:
 					t.add_row(entry)
 				print(t)
 
-			isExit = input("Continue Next Search? [Y/N]: ")
+			if int(choice) == 5:
+				print("\n~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+				print("~~~~~~~~~~~~~~~~~~ Top 10 Drivers with the most Trip in a given time period ~~~~~~~~~~~~~~~~~~")
+				print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n")
+				startTimeFrom = input("Please enter the the earliest start time of the trip: ")
+				startTimeTo = input("Please enter the the lastest start time of the trip: ")
+				try:
+					validate_datetime(startTimeFrom)
+					validate_datetime(startTimeTo)
+				except ValueError:
+					print("You must enter a valid datetime.")
+					continue
+				
+				t = PrettyTable(["Driver ID", "Fisrt Name", "Last Name", "Number of Trips"])
+				query_result = rank_users_with_most_trips(startTimeFrom, startTimeTo)
+				for entry in query_result:
+					t.add_row(entry)
+				print(t)
+
+
+			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
 			if isExit.upper() != 'Y' and isExit.upper() != 'N':
 				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit == 'n':
+			elif isExit.upper() == 'N':
 				break
 
 	if int(opt) == 5:
@@ -277,7 +376,7 @@ while True:
 				t.add_row(entry)
 			print(t)
 
-			isExit = input("Continue Next Search? [Y/N]: ")
+			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
 			if isExit.upper() != 'Y' and isExit.upper() != 'N':
 				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
 			elif isExit == 'n':
@@ -313,8 +412,8 @@ while True:
 				print(t)
 				
 
-			isExit = input("Continue Next Search? [Y/N]: ")
+			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
 			if isExit.upper() != 'Y' and isExit.upper() != 'N':
 				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit == 'n':
+			elif isExit.upper() == 'N':
 				break
