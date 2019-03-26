@@ -18,6 +18,13 @@ BLINK_START = "\33[5m"
 COLOR_END = "\33[0m"
 
 
+class InvalidInputException(Exception): 
+	def __init__(self, value):
+		self.value = value
+	def __str__(self):
+		return repr(self.value)
+
+
 # OPTION 1
 def find_trip(stopName, startTimeFrom, startTimeTo, startLocation):
 	query = ("select trips.tripId, trips.numberOfSeatsAvailable, trips.price, trips.startTime, trips.title " + "from trips " + "join hasstops h on trips.tripid = h.tripid " + "where h.stopname = '" + stopName + "' and "+  "(trips.starttime between '" + startTimeFrom + "' and '" + startTimeTo + "') and " + "trips.startlocation = '" + startLocation + "' " + "order by price asc;")
@@ -25,10 +32,38 @@ def find_trip(stopName, startTimeFrom, startTimeTo, startLocation):
 	return cur.fetchall()
 
 
-# OPTION 2
-def cancel_trip():
-	# TBD
-	pass
+# OPTION 2-1
+def view_trip(uname): 
+	try: 
+		cur.execute("select * from Passengers where userName = '" + uname + "'; ")
+	except Exception as e: 
+		raise InvalidInputException("Cannot find passenger with name" + uname + ".")
+	if len(cur.fetchall()) < 1: 
+		raise InvalidInputException("Cannot find passenger with name" + uname + ".")
+	try: 
+		query = ("select t.title, t.startlocation, t.startTime from Books b, Trips t where t.tripId = b.tripId and b.uid = '" + uname + "'; ")
+	except Exception: 
+		raise InvalidInputException("Cannot find book with name" + uname + ".")
+	cur.execute(query)
+	return cur.fetchall()
+
+
+# OPTION 2-2
+def cancel_trip(uname, tripId):
+	if not tripId.isdigit(): 
+		raise InvalidInputException("Trip id must be a non-negative integer.")
+	try: 
+		cur.execute("select * from Passengers where userName = '" + uname + "'; ")
+	except Exception as e: 
+		raise InvalidInputException(e)
+	if len(cur.fetchall()) < 1: 
+		raise InvalidInputException("Cannot find passenger with name" + uname + ".")
+	try:
+		query = ("delete from Books where tripId = " + tripId + "; ")
+	except Exception: 
+		raise InvalidInputException("Cannot delete book with name" + uname + ".")
+	cur.execute(query)
+	conn.commit()
 
 
 # OPTION 3
@@ -166,24 +201,25 @@ while True:
 	print("\t1. Find a Trip")
 	print("\t2. Trip Management")
 	print("\t3. Status Management")
-	print("\t4. Hall of Fame -- List of useful rankings")
+	print("\t4. \"Hall of Fame\" -- List of Useful Rankings")
 	print("\t5. User Information")
 	print("\t6. View Comments about a Trip" + COLOR_END)
-	print(RED_START + "\t0. Exit the system"  + COLOR_END)
+	print(RED_START + "\t0. Exit the System"  + COLOR_END)
 	opt = input(GREEN_START + "\nPlease Enter Your Choice From 0 To 6: " + COLOR_END)
 	if not opt.isdigit() or int(opt) > 6 or int(opt) < 0:
-		print('throw new InvalidInputException("User must enter a number between 0 and 6.")')
+		print(RED_START + "Invalid Choice. Please Enter Your Choice Again From 0 to 6"  + COLOR_END)
 		continue
 	
 	if int(opt) == 0: # EXIT THE SYSTEM
 		print(YELLOW_START + "")
+		conn.close()
 		print("*************************************** SEE YOU AGAIN! ****************************************")
 		print("" + COLOR_END)
 		break
 	
 	if int(opt) == 1:	
 		while True:
-			print("==============================================================================================")
+			print(GREEN_START + "==============================================================================================")
 			timeStart = input("Please enter the the earliest start time of the trip: ")
 			timeEnd = input("Please enter the the lastest start time of the trip: ")
 			try:
@@ -198,18 +234,49 @@ while True:
 			for entry in find_trip(stopName, timeStart, timeEnd, startLocation):
 				t.add_row(entry)
 			print(t)
-
 			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
-			while (isExit.upper() != 'Y' and isExit.upper() != 'N'):
-				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
-			if isExit.upper() == 'N':
+			if isExit.upper() != 'Y' and isExit.upper() != 'N':
+				print('Must Enter a Y or N')
+			elif isExit.upper() == 'N':
 				break
 
 	if int(opt) == 2:
-		pass
-
-
-
+		while True: 
+			print("===============================================================================================")
+			print(GREEN_START + "Please select the rank you would like to see:\n")
+			print("\t1. My Trips")
+			print("\t2. Cancel a Trip")
+			print(RED_START + "\t0. Exit")
+			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 2: " + COLOR_END)
+			if int(choice) == 0:
+				break
+			if not choice.isdigit() or int(choice) > 2 or int(choice) < 0:
+				print('throw new InvalidInputException("User must enter a number between 0 and 2.")')
+				continue
+			if int(choice) == 1: 
+				uname = input("Please enter your user name: ")
+				try: 
+					t = PrettyTable(["Title", "Start Location", "Start Time"])
+					for entry in view_trip(uname.strip()): 
+						t.add_row(entry)
+					print(t)
+					continue
+				except Exception as e: 
+					print(e)
+					continue
+			if int(choice) == 2: 
+				uname = input("Please enter your user name: ")
+				tripId = input("Please enter the trip id of the trip you want to delete: ")
+				try: 
+					cancel_trip(uname.strip(), tripId.strip())
+				except Exception as e: 
+					print(e)
+					continue
+			isExit = input(RED_START + "Continue Next Round? [Y/N]: " + COLOR_END)
+			if isExit.upper() != 'Y' and isExit.upper() != 'N':
+				print('Must Enter a Y or N')
+			elif isExit.upper() == 'N':
+				break
 
 
 
@@ -224,7 +291,7 @@ while True:
 			print(RED_START + "\t0. Exit")
 			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 2: " + COLOR_END)
 			if not choice.isdigit() or int(choice) > 2 or int(choice) < 0:
-				print("Invalid Choice. Please Enter Your Choice Again From 0 to 2")
+				print(RED_START + "Invalid Choice. Please Enter Your Choice Again" + COLOR_END)
 				continue
 
 			if int(opt) == 0:
@@ -281,7 +348,7 @@ while True:
 			print(RED_START + "\t0. Exit")
 			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 5: " + COLOR_END)
 			if not choice.isdigit() or int(choice) > 5 or int(choice) < 0:
-				print("Invalid Choice. Please Enter Your Choice Again From 0 to 5")
+				print(RED_START + "Invalid Choice. Please Enter Your Choice Again From 0 to 5" + COLOR_END)
 				continue
 
 			if int(opt) == 0: # EXIT THE SYSTEM
