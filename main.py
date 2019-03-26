@@ -3,7 +3,7 @@ import datetime
 from string import Template
 from prettytable import PrettyTable
 
-conn = psycopg2.connect(dbname="cs421", user="cs421g64", password="zhanlang123", host='comp421.cs.mcgill.ca')
+conn = psycopg2.connect(dbname="cs421", user="yma67", password="xPR7ri6I", host='comp421.cs.mcgill.ca')
 cur = conn.cursor()
 cur.execute("select tablename from pg_catalog.pg_tables where schemaname='cs421g64'")
 TABLES = list(map(lambda x: x[0], cur.fetchall()))
@@ -59,7 +59,7 @@ def cancel_trip(uname, tripId):
 	if len(cur.fetchall()) < 1: 
 		raise InvalidInputException("Cannot find passenger with name" + uname + ".")
 	try:
-		query = ("delete from Books where tripId = " + tripId + "; ")
+		query = ("delete from Books where tripId = " + tripId + " and uid = '" + uname + "'; ")
 	except Exception: 
 		raise InvalidInputException("Cannot delete book with name" + uname + ".")
 	cur.execute(query)
@@ -231,7 +231,7 @@ while True:
 			startLocation = input("Please enter the start location of the trip; it should be a city: ")
 			stopName = input("Please enter the end location of the trip; it should be a stop: ")
 			t = PrettyTable(['ID', 'Seat', 'Price', 'Start Time', 'Title'])
-			for entry in find_trip(stopName, timeStart, timeEnd, startLocation):
+			for entry in find_trip(stopName.strip(), timeStart.strip(), timeEnd.strip(), startLocation.strip()):
 				t.add_row(entry)
 			print(t)
 			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
@@ -239,7 +239,8 @@ while True:
 				print('Must Enter a Y or N')
 			elif isExit.upper() == 'N':
 				break
-
+		continue
+		
 	if int(opt) == 2:
 		while True: 
 			print("===============================================================================================")
@@ -277,7 +278,7 @@ while True:
 				print('Must Enter a Y or N')
 			elif isExit.upper() == 'N':
 				break
-
+		continue
 
 
 
@@ -335,6 +336,7 @@ while True:
 				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
 			if isExit.upper() == 'N':
 				break
+		continue
 
 	if int(opt) == 4:
 		while True:
@@ -427,6 +429,7 @@ while True:
 				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
 			if isExit.upper() == 'N':
 				break
+		continue
 
 	if int(opt) == 5:
 		while True:
@@ -451,6 +454,7 @@ while True:
 				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
 			if isExit.upper() == 'N':
 				break
+		continue
 
 	if int(opt) == 6: # For testing: Quebec, Naxin, Fang
 		while True:
@@ -486,3 +490,4 @@ while True:
 				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
 			if isExit.upper() == 'N':
 				break
+		continue
