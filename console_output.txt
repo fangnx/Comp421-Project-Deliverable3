@@ -1,0 +1,357 @@
+
+**************************** WELCOME TO THE CARPOOL DATABASE SYSTEM ***************************
+
+===============================================================================================
+Please Enter One of the Following Options:
+
+	1. Find a Trip
+	2. Trip Management
+	3. Status Management
+	4. "Hall of Fame" -- List of Useful Rankings
+	5. User Information
+	6. View Comments about a Trip
+	0. Exit the System
+
+Please Enter Your Choice From 0 To 6: 1
+==============================================================================================
+Please enter the the earliest start time of the trip: 2018-01-01
+Please enter the the lastest start time of the trip: 2021-01-01
+Please enter the start location of the trip; it should be a city: Quebec
+Please enter the end location of the trip; it should be a stop: Mcgill
++----+------+-------+---------------------+------------------------------------------------------+
+| ID | Seat | Price |      Start Time     |                        Title                         |
++----+------+-------+---------------------+------------------------------------------------------+
+| 1  |  7   |  43.5 | 2019-07-03 10:20:00 | Trip from Quebec at 2019-07-03 10:20:00 with 7 seats |
++----+------+-------+---------------------+------------------------------------------------------+
+Continue Next Search? [Y/N]: N
+===============================================================================================
+Please Enter One of the Following Options:
+
+	1. Find a Trip
+	2. Trip Management
+	3. Status Management
+	4. "Hall of Fame" -- List of Useful Rankings
+	5. User Information
+	6. View Comments about a Trip
+	0. Exit the System
+
+Please Enter Your Choice From 0 To 6: 2
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. My Trips
+	2. Cancel a Trip
+	0. Exit
+
+Enter Your Choice From 0 to 2: 1
+Please enter your user name: Xinyl
++--------------------------------------------------------+----------------+---------------------+
+|                         Title                          | Start Location |      Start Time     |
++--------------------------------------------------------+----------------+---------------------+
+| Trip from Kingston at 2019-07-02 10:20:00 with 8 seats |    Kingston    | 2019-07-02 10:20:00 |
++--------------------------------------------------------+----------------+---------------------+
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. My Trips
+	2. Cancel a Trip
+	0. Exit
+
+Enter Your Choice From 0 to 2: 2
+Please enter your user name: Xinyl
+Please enter the trip id of the trip you want to delete: 2
+Continue Next Round? [Y/N]: Y
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. My Trips
+	2. Cancel a Trip
+	0. Exit
+
+Enter Your Choice From 0 to 2: 1
+Please enter your user name: Xinyl
++-------+----------------+------------+
+| Title | Start Location | Start Time |
++-------+----------------+------------+
++-------+----------------+------------+
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. My Trips
+	2. Cancel a Trip
+	0. Exit
+
+Enter Your Choice From 0 to 2: 0
+===============================================================================================
+Please Enter One of the Following Options:
+
+	1. Find a Trip
+	2. Trip Management
+	3. Status Management
+	4. "Hall of Fame" -- List of Useful Rankings
+	5. User Information
+	6. View Comments about a Trip
+	0. Exit the System
+
+Please Enter Your Choice From 0 To 6: 3
+===============================================================================================
+Please select the action you would like to implement:
+
+	1. Delete all expired Cards
+	2. Standardize all Trip names
+	0. Exit
+
+Enter Your Choice From 0 to 2: 1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Delete all expired Cards ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After deletion:
+
++------------------+------------+
+|   Card Number    |  User ID   |
++------------------+------------+
+| 5792837560192853 |  Oppo123   |
+| 2847581029374814 |   Xinyl    |
+| 4028492840002847 |    Mayx    |
+| 1827384927493029 |   5plusp   |
+| 9090334477889234 |   Caige    |
+| 1984328437274304 |   Huawei   |
+| 1298498227465028 | xiaohuozhi |
++------------------+------------+
+Continue Next Action? [Y/N]: Y
+===============================================================================================
+Please select the action you would like to implement:
+
+	1. Delete all expired Cards
+	2. Standardize all Trip names
+	0. Exit
+
+Enter Your Choice From 0 to 2: 2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Standardize Trip naming ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+After standardization:
+
++---------+-----------------------------------------------------------+
+| Trip ID |                      Trip Description                     |
++---------+-----------------------------------------------------------+
+|    1    |    Trip from Quebec at 2019-07-03 10:20:00 with 7 seats   |
+|    2    |   Trip from Kingston at 2019-07-02 10:20:00 with 8 seats  |
+|    3    |   Trip from Kingston at 2019-07-11 10:20:00 with 2 seats  |
+|    4    |   Trip from Montreal at 2019-07-12 10:20:00 with 3 seats  |
+|    5    |    Trip from Surrey at 2019-07-13 10:20:00 with 4 seats   |
+|    6    |   Trip from NewYork at 2019-07-14 10:20:00 with 5 seats   |
+|    7    |    Trip from Paris at 2019-01-12 03:25:00 with 6 seats    |
+|    8    |   Trip from Istanbul at 2019-03-21 07:33:00 with 5 seats  |
+|    9    |   Trip from Shenzhen at 2019-05-15 18:50:00 with 6 seats  |
+|    10   |  Trip from Manchester at 2019-11-09 10:24:00 with 3 seats |
+|    11   |    Trip from Suzhou at 2019-08-08 13:03:03 with 4 seats   |
+|    12   | Trip from White Rock at 2019-02-14 18:00:00 with 12 seats |
++---------+-----------------------------------------------------------+
+Continue Next Action? [Y/N]: N
+===============================================================================================
+Please Enter One of the Following Options:
+
+	1. Find a Trip
+	2. Trip Management
+	3. Status Management
+	4. "Hall of Fame" -- List of Useful Rankings
+	5. User Information
+	6. View Comments about a Trip
+	0. Exit the System
+
+Please Enter Your Choice From 0 To 6: 4
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. Top 10 Trips with the highest Comments rating
+	2. Top 10 Trip destinations
+	3. Top 10 Vehicle models for your ride
+	4. Top 10 Users with the most Trips in a given time period
+	5. Top 10 Drivers with the most Trip in a given time period
+	0. Exit
+
+Enter Your Choice From 0 to 5: 1
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~ Top 10 Trips with the highest Comments rating ~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
++---------+--------------------------------------------------------+--------------------+
+| Trip ID |                       Trip title                       |   Average rating   |
++---------+--------------------------------------------------------+--------------------+
+|    2    | Trip from Kingston at 2019-07-02 10:20:00 with 8 seats | 8.5000000000000000 |
+|    3    | Trip from Kingston at 2019-07-11 10:20:00 with 2 seats | 6.5000000000000000 |
+|    1    |  Trip from Quebec at 2019-07-03 10:20:00 with 7 seats  | 3.6666666666666667 |
++---------+--------------------------------------------------------+--------------------+
+Continue Next Search? [Y/N]: y
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. Top 10 Trips with the highest Comments rating
+	2. Top 10 Trip destinations
+	3. Top 10 Vehicle models for your ride
+	4. Top 10 Users with the most Trips in a given time period
+	5. Top 10 Drivers with the most Trip in a given time period
+	0. Exit
+
+Enter Your Choice From 0 to 5: 2
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Top 10 Trip destinations ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
++-----------+-----------------+
+| City name | Number of trips |
++-----------+-----------------+
+|  Kingston |        3        |
+| Vancouver |        2        |
+|   Xiamen  |        1        |
++-----------+-----------------+
+Continue Next Search? [Y/N]: y
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. Top 10 Trips with the highest Comments rating
+	2. Top 10 Trip destinations
+	3. Top 10 Vehicle models for your ride
+	4. Top 10 Users with the most Trips in a given time period
+	5. Top 10 Drivers with the most Trip in a given time period
+	0. Exit
+
+Enter Your Choice From 0 to 5: 3
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~ Top 10 Vehicle models for your ride ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
++------------+------------------------------+
+| Car Model  | Number of been used in trips |
++------------+------------------------------+
+|  ToyotaA7  |              1               |
+|  BenzG54   |              1               |
+|   AudiA8   |              1               |
+| HondaGMZ-8 |              1               |
+|   BMWX6    |              1               |
++------------+------------------------------+
+Continue Next Search? [Y/N]: y
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. Top 10 Trips with the highest Comments rating
+	2. Top 10 Trip destinations
+	3. Top 10 Vehicle models for your ride
+	4. Top 10 Users with the most Trips in a given time period
+	5. Top 10 Drivers with the most Trip in a given time period
+	0. Exit
+
+Enter Your Choice From 0 to 5: 4
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~ Top 10 Users with the most Trips in a given time period ~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please enter the the earliest start time of the trip: 2015-01-01
+Please enter the the lastest start time of the trip: 2021-10-10
++---------+------------+-----------+-----------------+
+| User ID | Fisrt Name | Last Name | Number of Trips |
++---------+------------+-----------+-----------------+
+|  Huawei |    Hua     |    Wei    |        1        |
+| Oppo123 |   Naxin    |    Fang   |        1        |
++---------+------------+-----------+-----------------+
+Continue Next Search? [Y/N]: y
+===============================================================================================
+Please select the rank you would like to see:
+
+	1. Top 10 Trips with the highest Comments rating
+	2. Top 10 Trip destinations
+	3. Top 10 Vehicle models for your ride
+	4. Top 10 Users with the most Trips in a given time period
+	5. Top 10 Drivers with the most Trip in a given time period
+	0. Exit
+
+Enter Your Choice From 0 to 5: 5
+
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~ Top 10 Drivers with the most Trip in a given time period ~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Please enter the the earliest start time of the trip: 2015-01-01
+Please enter the the lastest start time of the trip: 2021-10-10
++-----------+------------+-----------+-----------------+
+| Driver ID | Fisrt Name | Last Name | Number of Trips |
++-----------+------------+-----------+-----------------+
+|   Huawei  |    Hua     |    Wei    |        1        |
+|  Oppo123  |   Naxin    |    Fang   |        1        |
++-----------+------------+-----------+-----------------+
+Continue Next Search? [Y/N]: n
+===============================================================================================
+Please Enter One of the Following Options:
+
+	1. Find a Trip
+	2. Trip Management
+	3. Status Management
+	4. "Hall of Fame" -- List of Useful Rankings
+	5. User Information
+	6. View Comments about a Trip
+	0. Exit the System
+
+Please Enter Your Choice From 0 To 6: 5
+===============================================================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Find User information given the name ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Please enter the first name of the user: Li
+Please enter the last name of the user: Xinyu
++-----------+------------+-----------+-------------------+--------------+
+| User Name | Fisrt Name | Last Name |       Email       | Phone Number |
++-----------+------------+-----------+-------------------+--------------+
+|   Xinyl   |     Li     |   Xinyu   | xinyuli@gmail.com |  5143453723  |
++-----------+------------+-----------+-------------------+--------------+
+Continue Next Search? [Y/N]: N
+===============================================================================================
+Please Enter One of the Following Options:
+
+	1. Find a Trip
+	2. Trip Management
+	3. Status Management
+	4. "Hall of Fame" -- List of Useful Rankings
+	5. User Information
+	6. View Comments about a Trip
+	0. Exit the System
+
+Please Enter Your Choice From 0 To 6: 6
+===============================================================================================
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~ Find Comments given the start location of the Trip & optionally the name of the User ~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Please enter the start location of the trip: Quebec
+Do you want to specify the name of the User who writes the Comment? [Y/N]: Y
+Please enter the first name of the user: Naxin
+Please enter the last name of the user: Fang
++------------+----------------------------+--------+------------+-----------+------------------------------------------------------+
+| Comment ID |          Content           | Rating | First Name | Last Name |                   Trip Description                   |
++------------+----------------------------+--------+------------+-----------+------------------------------------------------------+
+|     1      | This is a very bad driver! |   3    |   Naxin    |    Fang   | Trip from Quebec at 2019-07-03 10:20:00 with 7 seats |
++------------+----------------------------+--------+------------+-----------+------------------------------------------------------+
+Continue Next Search? [Y/N]: N
+===============================================================================================
+Please Enter One of the Following Options:
+
+	1. Find a Trip
+	2. Trip Management
+	3. Status Management
+	4. "Hall of Fame" -- List of Useful Rankings
+	5. User Information
+	6. View Comments about a Trip
+	0. Exit the System
+
+Please Enter Your Choice From 0 To 6: 0
+
+*************************************** SEE YOU AGAIN! ****************************************
+
+ yuxiangma@Yuxiangs-MacBook-Pro  ~ 
