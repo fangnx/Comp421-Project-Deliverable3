@@ -164,7 +164,7 @@ while True:
 	print("===============================================================================================")
 	print(GREEN_START + "Please Enter One of the Following Options:\n")
 	print("\t1. Find a Trip")
-	print("\t2. Cancel a Trip")
+	print("\t2. Trip Management")
 	print("\t3. Status Management")
 	print("\t4. Hall of Fame -- List of useful rankings")
 	print("\t5. User Information")
@@ -200,9 +200,9 @@ while True:
 			print(t)
 
 			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
-			if isExit.upper() != 'Y' and isExit.upper() != 'N':
-				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit.upper() == 'N':
+			while (isExit.upper() != 'Y' and isExit.upper() != 'N'):
+				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
+			if isExit.upper() == 'N':
 				break
 
 	if int(opt) == 2:
@@ -222,7 +222,10 @@ while True:
 			print("\t1. Delete all expired Cards")
 			print("\t2. Standardize all Trip names")
 			print(RED_START + "\t0. Exit")
-			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 3: " + COLOR_END)
+			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 2: " + COLOR_END)
+			if not choice.isdigit() or int(choice) > 2 or int(choice) < 0:
+				print("Invalid Choice. Please Enter Your Choice Again From 0 to 2")
+				continue
 
 			if int(opt) == 0:
 				break
@@ -261,13 +264,11 @@ while True:
 				conn.commit()
 
 			isExit = input(RED_START + "Continue Next Action? [Y/N]: " + COLOR_END)
-			if isExit.upper() != 'Y' and isExit.upper() != 'N':
-				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit == 'n':
+			while (isExit.upper() != 'Y' and isExit.upper() != 'N'):
+				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
+			if isExit.upper() == 'N':
 				break
 
-
-	
 	if int(opt) == 4:
 		while True:
 			print("===============================================================================================")
@@ -279,6 +280,9 @@ while True:
 			print("\t5. Top 10 Drivers with the most Trip in a given time period")
 			print(RED_START + "\t0. Exit")
 			choice = input(GREEN_START + "\nEnter Your Choice From 0 to 5: " + COLOR_END)
+			if not choice.isdigit() or int(choice) > 5 or int(choice) < 0:
+				print("Invalid Choice. Please Enter Your Choice Again From 0 to 5")
+				continue
 
 			if int(opt) == 0: # EXIT THE SYSTEM
 				break
@@ -351,11 +355,10 @@ while True:
 					t.add_row(entry)
 				print(t)
 
-
 			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
-			if isExit.upper() != 'Y' and isExit.upper() != 'N':
-				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit.upper() == 'N':
+			while (isExit.upper() != 'Y' and isExit.upper() != 'N'):
+				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
+			if isExit.upper() == 'N':
 				break
 
 	if int(opt) == 5:
@@ -377,9 +380,9 @@ while True:
 			print(t)
 
 			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
-			if isExit.upper() != 'Y' and isExit.upper() != 'N':
-				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit == 'n':
+			while (isExit.upper() != 'Y' and isExit.upper() != 'N'):
+				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
+			if isExit.upper() == 'N':
 				break
 
 	if int(opt) == 6: # For testing: Quebec, Naxin, Fang
@@ -410,10 +413,9 @@ while True:
 				for entry in query_result:
 					t.add_row(entry)
 				print(t)
-				
 
 			isExit = input(RED_START + "Continue Next Search? [Y/N]: " + COLOR_END)
-			if isExit.upper() != 'Y' and isExit.upper() != 'N':
-				print('throw new InvalidInputException("别像Gunter一样傻逼，输入Y或者n")')
-			elif isExit.upper() == 'N':
+			while (isExit.upper() != 'Y' and isExit.upper() != 'N'):
+				isExit = input(RED_START + "Invalid input. Please Enter [Y/N]: " + COLOR_END)
+			if isExit.upper() == 'N':
 				break
