@@ -3,7 +3,7 @@ import datetime
 from string import Template
 from prettytable import PrettyTable
 
-conn = psycopg2.connect(dbname="cs421", user="yma67", password="xPR7ri6I", host='comp421.cs.mcgill.ca')
+conn = psycopg2.connect(dbname="cs421", user="uuu", password="xxxxxx", host='comp421.cs.mcgill.ca')
 cur = conn.cursor()
 cur.execute("select tablename from pg_catalog.pg_tables where schemaname='cs421g64'")
 TABLES = list(map(lambda x: x[0], cur.fetchall()))
